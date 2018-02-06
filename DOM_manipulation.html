@@ -1,0 +1,98 @@
+<div id="root">
+
+  <div class="A1">
+    <div class="A1 B">
+      <p>This is a paragraph </p>
+    </div>
+  </div>
+
+  <div class="A1">
+    <div class="A2 B2 C2">
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const getElementsByClassName = (targetElement, className) => {
+    var result = [];
+
+    function traverse(node) {
+      if (node.className === className) {
+        result.push(node);
+      }
+      for (let i = 0; i < node.childNodes.length; i++) {
+        traverse(node.childNodes[i]);
+      }
+    }
+
+    traverse(targetElement);
+    return result;
+  }
+
+</script>
+
+
+<script>
+  function getElementsByClassNames(targetElement, className) {
+    var result = [],
+      // Fetching all elements.
+      elements = document.getElementsByTagName('*'),
+      len = elements.length,
+      i,
+      node;
+    for (i = 0; i < len; i++) {
+      node = elements[i];
+      if (node.className == className) {
+        result.push(node);
+      }
+    }
+    return result;
+
+
+  }
+</script>
+
+<script>
+function startGame(){
+
+//create a 7x6 gameBoard
+let gameBoard = [
+  ['*', '*', '*', '*', '*', '*', '*'],
+  ['*', '', '*', '*', '*', '*', '*'],
+  ['*', '*', '*', '*', '*', '*', '*'],
+  ['*', '*', '*', '*', '*', '*', '*'],
+  ['*', '*', '*', '*', '*', '*', '*'],
+  ['*', '*', '*', '*', '*', '*', '*'],
+  ['*', '*', '*', '*', '*', '*', '*']
+  ]
+
+  for(let i = 0; i < gameBoard.length; i++){
+    console.log(gameBoard[i].join(' '))
+  }
+
+  console.log(gameBoard[1][1])
+}
+
+// startGame();
+
+function testGame() {
+  var stdin = process.openStdin();
+
+  var readline = require('readline');
+
+  var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+  });
+
+  rl.question("What do you think of node.js? ", function(answer) {
+  // TODO: Log the answer in a database
+  console.log("Thank you for your valuable feedback:", answer);
+
+  rl.close();
+  });
+}
+
+
+</script>
