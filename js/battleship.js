@@ -118,8 +118,9 @@ Player.prototype.getShip = function(id) {
 // ----------------------------------------------
 
 function viewBoard(){
+  console.log('  0 1 2 3 4 5 6 7 8 9')
   for(let i = 0; i < gameBoard.length; i++){
-      console.log(gameBoard[i].join(' '))
+      console.log(i + ' ' + gameBoard[i].join(' '))
     }
 }
 let totalShips = 0;
