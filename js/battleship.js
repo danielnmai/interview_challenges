@@ -37,14 +37,13 @@ function setUp(input, playerName) {
 
   if(player1.name === playerName) {
     player1.addShip(x, y, length, direction)
-    console.log('player 1 ship count: ' +  player1.shipCount)
+    console.log(player1.getAllShips)
 
   }
   else {
     player2.addShip(x, y, length, direction)
-    console.log('player 2 ship count: ' + player2.shipCount)
+    console.log(player2.getAllShips)
   }
-
   //View Board
   viewBoard()
 }
