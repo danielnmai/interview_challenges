@@ -9,59 +9,55 @@ const player2 = new Player(PLAYER_2)
 //Limit the total number of ships for 2 players to 4
 const MAX_SHIP_NUMBER = 4
 
-//create a 10x10 gameBoard
-let gameBoard = [
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+//create a 10x10 player1Board
+let player1Board = [
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+]
+let player2Board = [
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+['-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
 ]
 
-let setUpDone = false
 //SET UP FUNCTION
 function setUp(input, playerName) {
-  if (player1.shipCount === MAX_SHIP_NUMBER && player2.shipCount === MAX_SHIP_NUMBER) {
-    setUpDone = true
-    return
-  }
-
   let array = input.split(' ');
   let x = parseInt(array[0]), y = parseInt(array[1]), length = parseInt(array[2])
   let direction = parseInt(array[3])
 
   if(player1.name === playerName) {
     player1.addShip(x, y, length, direction)
-    console.log(player1.getAllShips)
+    player1.viewBoard()
 
   }
   else {
     player2.addShip(x, y, length, direction)
-    console.log(player2.getAllShips)
-  }
-  //View Board
-  viewBoard()
-}
-
-//Place ship on the board
-function placeShip(direction, mark){
-  if (parseInt(direction) === 0) {
-    for(let i = 0; i < length; i++){
-      gameBoard[x][y + i] = mark
-    }
-  }
-
-  if(parseInt(direction) === 1){
-    for(let i = 0; i < length; i++){
-      gameBoard[x + i][y] = mark
-    }
+    player2.viewBoard()
   }
 }
+
+//FIRING PHASE
+function firing(){
+
+}
+
+
 
 //Create Player Object with properties of name, shipCount and getAllShips
 function Player(name){
@@ -80,13 +76,13 @@ Player.prototype.addShip = function(x, y, length, direction) {
     //Place ship on the board
     if (direction === 0) {
       for(let i = 0; i < length; i++){
-        gameBoard[x][y + i] = 'X'
+        player1Board[x][y + i] = 'O'
       }
     }
 
     if(direction === 1){
       for(let i = 0; i < length; i++){
-        gameBoard[x + i][y] = 'X'
+        player1Board[x + i][y] = 'O'
       }
     }
   }
@@ -99,29 +95,45 @@ Player.prototype.addShip = function(x, y, length, direction) {
     //Place ship on the board
     if (direction === 0) {
       for(let i = 0; i < length; i++){
-        gameBoard[x][y + i] = 'O'
+        player2Board[x][y + i] = 'O'
       }
     }
 
     if(direction === 1){
       for(let i = 0; i < length; i++){
-        gameBoard[x + i][y] = 'O'
+        player2Board[x + i][y] = 'O'
       }
     }
   }
   this.shipCount ++
 }
+//Get a single ship information
 Player.prototype.getShip = function(id) {
   return this.getAllShips['ship' + id]
 }
+//View player BOARD
+Player.prototype.viewBoard = function(){
+  //view player 1 board
+  if(this.name === PLAYER_1){
+    console.log('\x1b[33m%s\x1b[0m','--- PLAYER 1 BOARD ---')
+    console.log('\x1b[33m%s\x1b[0m', '  0 1 2 3 4 5 6 7 8 9')
+    for(let i = 0; i < player1Board.length; i++){
+        console.log("\x1b[33m%s\x1b[0m", i + ' ' + player1Board[i].join(' '))
+      }
+  }
+  //view player 2 board
+  if(this.name === PLAYER_2){
+    console.log('\x1b[36m%s\x1b[0m','--- PLAYER 2 BOARD ---')
+    console.log('\x1b[36m%s\x1b[0m', '  0 1 2 3 4 5 6 7 8 9')
+    for(let i = 0; i < player2Board.length; i++){
+        console.log("\x1b[36m%s\x1b[0m", i + ' ' + player2Board[i].join(' '))
+      }
+  }
+}
+
 // ----------------------------------------------
 
-function viewBoard(){
-  console.log('  0 1 2 3 4 5 6 7 8 9')
-  for(let i = 0; i < gameBoard.length; i++){
-      console.log(i + ' ' + gameBoard[i].join(' '))
-    }
-}
+
 let totalShips = 0;
 function promptInput(prompt, handler) {
   //SET UP PHASE
