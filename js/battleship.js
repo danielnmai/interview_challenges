@@ -1,13 +1,18 @@
 const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
 const PROMPT = 'SET UP PHASE - Player 1 ENTER Ship Coord, Length and Direction \n (Ship Direction: 0 is horizontal, 1 is vertical ): (x, y, length, direction)> '
+const INVALID_PROMPT = '---INVALID SET UP. PLEASE ENTER CORRECT SHIP COORDINATES, SHIP LENGTH AND DIRECTION---'
 const PLAYER_1 = 'player1'
 const PLAYER_2 = 'player2'
 const player1 = new Player(PLAYER_1)
 const player2 = new Player(PLAYER_2)
 
 //Limit the total number of ships for 2 players to 4
-const MAX_SHIP_NUMBER = 4
+const MAX_SHIP_NUMBER = 6
+
+//Specify max ship length and min ship length
+const MAX_SHIP_LENGTH = 4, MIN_SHIP_LENGTH = 2
+
 
 //create a 10x10 player1Board
 let player1Board = [
@@ -37,21 +42,48 @@ let player2Board = [
 
 //SET UP FUNCTION
 function setUp(input, playerName) {
-  let isValidSetUp = false
+  //Get input fields - x, y, length and direction
   let array = input.split(' ');
   let x = parseInt(array[0]), y = parseInt(array[1]), length = parseInt(array[2])
   let direction = parseInt(array[3])
+  let isValidSetUp = true
 
-  if(player1.name === playerName) {
-    player1.addShip(x, y, length, direction)
-    player1.viewBoard()
+  //Check if input is valid before proceeding
+  checkValidSetUp()
 
+  if(isValidSetUp){
+    if(player1.name === playerName) {
+      player1.addShip(x, y, length, direction)
+      player1.viewBoard()
+    }
+    else {
+      player2.addShip(x, y, length, direction)
+      player2.viewBoard()
+    }
   }
-  else {
-    player2.addShip(x, y, length, direction)
-    player2.viewBoard()
-  }
 
+  function checkValidSetUp(){
+    //Coordinates start from 0 to gameBoard length - 1
+    if(x < 0 || x >= player1Board.length || y < 0 || y >= player1Board.length) {
+      isValidSetUp = false
+      console.log("1.something wrong")
+    }
+    //Ship length must be between 2 and 4
+    else if (length < MIN_SHIP_LENGTH || length > MAX_SHIP_LENGTH){
+      isValidSetUp = false
+      console.log("2.something wrong")
+    }
+    //Direction must be either 0 or 1
+    else if(direction !== 0 && direction !== 1){
+      isValidSetUp = false
+      console.log("3.something wrong")
+      console.log(direction)
+    }
+    //The coordinates are already occupied with a ship
+    else if(player1Board[x][y] !== '-' || player2Board[x][y] !== '-'){
+      isValidSetUp = false
+    }
+  }
   return isValidSetUp
 }
 
@@ -149,16 +181,19 @@ function promptInput(prompt, handler) {
             promptInput(PROMPT.replace('Player 1', 'Player 2'), handler);
           }
           else {
-            console.log('---INVALID SET UP. PLEASE ENTER CORRECT SHIP COORDINATES---')
+            console.log(INVALID_PROMPT)
             promptInput(PROMPT, handler);
           }
-
-
         }
         else {
-          setUp(input, PLAYER_2)
-          totalShips++
-          promptInput(PROMPT, handler);
+          if(setUp(input, PLAYER_2)){
+            totalShips++
+            promptInput(PROMPT, handler);
+          }
+          else {
+            console.log(INVALID_PROMPT)
+            promptInput(PROMPT.replace('Player 1', 'Player 2'), handler);
+          }
         }
       } else {
         rl.close();
