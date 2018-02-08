@@ -37,6 +37,7 @@ let player2Board = [
 
 //SET UP FUNCTION
 function setUp(input, playerName) {
+  let isValidSetUp = false
   let array = input.split(' ');
   let x = parseInt(array[0]), y = parseInt(array[1]), length = parseInt(array[2])
   let direction = parseInt(array[3])
@@ -50,6 +51,8 @@ function setUp(input, playerName) {
     player2.addShip(x, y, length, direction)
     player2.viewBoard()
   }
+
+  return isValidSetUp
 }
 
 //FIRING PHASE
@@ -141,9 +144,16 @@ function promptInput(prompt, handler) {
     rl.question(prompt, input => {
       if (handler(input) !== false) {
         if (prompt.includes('Player 1')) {
-          setUp(input, PLAYER_1)
-          totalShips++
-          promptInput(PROMPT.replace('Player 1', 'Player 2'), handler);
+          if(setUp(input, PLAYER_1)){
+            totalShips++
+            promptInput(PROMPT.replace('Player 1', 'Player 2'), handler);
+          }
+          else {
+            console.log('---INVALID SET UP. PLEASE ENTER CORRECT SHIP COORDINATES---')
+            promptInput(PROMPT, handler);
+          }
+
+
         }
         else {
           setUp(input, PLAYER_2)
