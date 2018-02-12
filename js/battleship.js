@@ -1,6 +1,6 @@
 const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
-const PROMPT = 'SET UP PHASE - Player 1 ENTER Ship Coord, Length and Direction \n (Ship Direction: 0 is horizontal, 1 is vertical ): (x, y, length, direction)> '
+const PROMPT = 'Player 1 ENTER Ship Coord, Length and Direction \n (Ship Direction: 0 is horizontal, 1 is vertical ): (x, y, length, direction)> '
 const INVALID_PROMPT = '---INVALID SET UP. PLEASE ENTER CORRECT SHIP COORDINATES, SHIP LENGTH AND DIRECTION---'
 const PLAYER_1 = 'player1'
 const PLAYER_2 = 'player2'
@@ -55,10 +55,12 @@ function setUp(input, playerName) {
     if(player1.name === playerName) {
       player1.addShip(x, y, length, direction)
       player1.viewBoard()
+      player1.fire(x, y)
     }
     else {
       player2.addShip(x, y, length, direction)
       player2.viewBoard()
+      player2.fire(x, y)
     }
   }
 
@@ -71,12 +73,10 @@ function setUp(input, playerName) {
     //Ship length must be between 2 and 4
     else if (length < MIN_SHIP_LENGTH || length > MAX_SHIP_LENGTH){
       isValidSetUp = false
-      console.log("2.something wrong")
     }
     //Direction must be either 0 or 1
     else if(direction !== 0 && direction !== 1){
       isValidSetUp = false
-      console.log("3.something wrong")
       console.log(direction)
     }
     //The coordinates are already occupied with a ship
@@ -88,8 +88,17 @@ function setUp(input, playerName) {
 }
 
 //FIRING PHASE
-function firing(){
-
+Player.prototype.fire = function(x, y){
+  let coord = `${x},${y}`
+  let result = 'MISS!'
+  let allShips = player1.getAllShips
+  for(let ship in player1.getAllShips){
+    let shipCoords = player1.getAllShips[ship]
+    if(shipCoords.hasOwnProperty(coord)){
+      result = 'HIT!'
+    }
+  }
+  console.log(result)
 }
 
 
@@ -173,6 +182,7 @@ let totalShips = 0;
 function promptInput(prompt, handler) {
   //SET UP PHASE
   if (totalShips < MAX_SHIP_NUMBER) {
+    console.log('SET UP PHASE!')
     rl.question(prompt, input => {
       if (handler(input) !== false) {
         if (prompt.includes('Player 1')) {
