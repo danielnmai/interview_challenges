@@ -1,7 +1,7 @@
 const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
 const PROMPT = 'Player 1 ENTER Ship Coord, Length and Direction \n (Ship Direction: 0 is horizontal, 1 is vertical ): (x, y, length, direction)> '
-const INVALID_PROMPT = '---INVALID SET UP. PLEASE ENTER CORRECT SHIP COORDINATES, SHIP LENGTH AND DIRECTION---'
+const INVALID_PROMPT = '---INVALID SET UP. PLEASE ENTER SHIP COORDINATES AGAIN.---'
 const PLAYER_1 = 'player1'
 const PLAYER_2 = 'player2'
 const player1 = new Player(PLAYER_1)
@@ -68,20 +68,22 @@ function setUp(input, playerName) {
     //Coordinates start from 0 to gameBoard length - 1
     if(x < 0 || x >= player1Board.length || y < 0 || y >= player1Board.length) {
       isValidSetUp = false
-      console.log("1.something wrong")
+      console.log("Coordinates are out of bound.")
     }
     //Ship length must be between 2 and 4
     else if (length < MIN_SHIP_LENGTH || length > MAX_SHIP_LENGTH){
       isValidSetUp = false
+      console.log('Ship length must be between 2 and 4')
     }
     //Direction must be either 0 or 1
     else if(direction !== 0 && direction !== 1){
       isValidSetUp = false
-      console.log(direction)
+      console.log('Direction must be either 0 or 1')
     }
     //The coordinates are already occupied with a ship
     else if(player1Board[x][y] !== '-' || player2Board[x][y] !== '-'){
       isValidSetUp = false
+      console.log('The coordinates selected are occupied.')
     }
   }
   return isValidSetUp
