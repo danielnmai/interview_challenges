@@ -1,14 +1,18 @@
 const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
-const PROMPT = 'Player 1 ENTER Ship Coord, Length and Direction \n (Ship Direction: 0 is horizontal, 1 is vertical ): (x, y, length, direction)> '
+
+//Set up phase
+const SETUP_PROMPT = 'Player 1 ENTER Ship Coord, Length and Direction \n (Ship Direction: 0 is horizontal, 1 is vertical ): (x, y, length, direction)> '
+//Firing phase
+const FIRING_PROMPT = 'Player 1 ENTER Coordinates to Attack, separating by space (x y)> '
 const INVALID_PROMPT = '---INVALID SET UP. PLEASE ENTER SHIP COORDINATES AGAIN.---'
 const PLAYER_1 = 'player1'
 const PLAYER_2 = 'player2'
 const player1 = new Player(PLAYER_1)
 const player2 = new Player(PLAYER_2)
 
-//Limit the total number of ships for 2 players to 4
-const MAX_SHIP_NUMBER = 6
+//Limit the total number of ships for 2 players
+const MAX_SHIP_NUMBER = 2
 
 //Specify max ship length and min ship length
 const MAX_SHIP_LENGTH = 4, MIN_SHIP_LENGTH = 2
@@ -55,12 +59,10 @@ function setUp(input, playerName) {
     if(player1.name === playerName) {
       player1.addShip(x, y, length, direction)
       player1.viewBoard()
-      player1.fire(x, y)
     }
     else {
       player2.addShip(x, y, length, direction)
       player2.viewBoard()
-      player2.fire(x, y)
     }
   }
 
@@ -90,12 +92,41 @@ function setUp(input, playerName) {
 }
 
 //FIRING PHASE
+function firing(input, playerName){
+  //Get input fields - x and y
+  let array = input.split(' ');
+  let x = parseInt(array[0]), y = parseInt(array[1])
+  console.log(x)
+  console.log(y)
+  let isValidFiring = true
+
+  checkValidFiring()
+
+  if(isValidFiring){
+    if(player1.name === playerName) {
+      player1.fire(x, y)
+      player1.viewBoard()
+    }
+    else {
+      player2.fire(x, y)
+      player2.viewBoard()
+    }
+  }
+
+  function checkValidFiring(){
+    if (x === NaN || y === NaN) {
+      isValidFiring = false
+      console.log('Invalid Coordinates')
+    }
+  }
+  return isValidFiring
+}
 Player.prototype.fire = function(x, y){
   let coord = `${x},${y}`
   let result = 'MISS!'
-  let allShips = player1.getAllShips
-  for(let ship in player1.getAllShips){
-    let shipCoords = player1.getAllShips[ship]
+  let allShips = this.getAllShips
+  for(let ship in this.getAllShips){
+    let shipCoords = this.getAllShips[ship]
     if(shipCoords.hasOwnProperty(coord)){
       result = 'HIT!'
     }
@@ -181,6 +212,8 @@ Player.prototype.viewBoard = function(){
 
 
 let totalShips = 0;
+
+
 function promptInput(prompt, handler) {
   //SET UP PHASE
   if (totalShips < MAX_SHIP_NUMBER) {
@@ -190,21 +223,21 @@ function promptInput(prompt, handler) {
         if (prompt.includes('Player 1')) {
           if(setUp(input, PLAYER_1)){
             totalShips++
-            promptInput(PROMPT.replace('Player 1', 'Player 2'), handler);
+            promptInput(SETUP_PROMPT.replace('Player 1', 'Player 2'), handler);
           }
           else {
             console.log(INVALID_PROMPT)
-            promptInput(PROMPT, handler);
+            promptInput(SETUP_PROMPT, handler);
           }
         }
         else {
           if(setUp(input, PLAYER_2)){
             totalShips++
-            promptInput(PROMPT, handler);
+            promptInput(SETUP_PROMPT, handler);
           }
           else {
             console.log(INVALID_PROMPT)
-            promptInput(PROMPT.replace('Player 1', 'Player 2'), handler);
+            promptInput(SETUP_PROMPT.replace('Player 1', 'Player 2'), handler);
           }
         }
       } else {
@@ -215,10 +248,38 @@ function promptInput(prompt, handler) {
   //FIRING PHASE
   else {
     console.log('FIRING PHASE!')
+    // prompt = FIRING_PROMPT
+    rl.question(prompt, input => {
+      if (handler(input) !== false) {
+        if (prompt.includes('Player 1')) {
+          if(firing(input, PLAYER_1)){
+            console.log('OMG!')
+            promptInput(prompt.replace('Player 1', 'Player 2'), handler)
+          }
+          else {
+            // console.log(INVALID_PROMPT)
+            console.log('NANANA')
+            promptInput(FIRING_PROMPT, handler)
+          }
+        }
+        else {
+          console.log('Player 2 turn!!!')
+          if(firing(input, PLAYER_2)){
+            promptInput(FIRING_PROMPT, handler)
+          }
+          else {
+            // console.log(INVALID_PROMPT)
+            promptInput(FIRING_PROMPT.replace('Player 1', 'Player 2'), handler)
+          }
+        }
+      } else {
+        rl.close();
+      }
+    });
   }
 }
 
-promptInput(PROMPT, input => {
+promptInput(SETUP_PROMPT, input => {
   switch (input) {
     case 'setup':
       console.log('setup')
