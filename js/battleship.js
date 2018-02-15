@@ -5,7 +5,8 @@ const rl = readline.createInterface(process.stdin, process.stdout);
 const SETUP_PROMPT = 'Player 1 ENTER Ship Coord, Length and Direction \n (Ship Direction: 0 is horizontal, 1 is vertical ): (x, y, length, direction)> '
 //Firing phase
 const FIRING_PROMPT = 'Player 1 ENTER Coordinates to Attack, separating by space (x y)> '
-const INVALID_PROMPT = '---INVALID SET UP. PLEASE ENTER SHIP COORDINATES AGAIN.---'
+const INVALID_SETUP = '---INVALID SET UP. PLEASE ENTER INFORMATION AGAIN.---'
+const INVALID_FIRING = '---FIRING NOT ALLOWED. PLEASE ENTER SHIP COORDINATES AGAIN.---'
 const PLAYER_1 = 'player1'
 const PLAYER_2 = 'player2'
 const player1 = new Player(PLAYER_1)
@@ -119,15 +120,15 @@ function firing(input, playerName){
   function checkValidFiring(){
     if (isNaN(x) || isNaN(y)) {
       isValidFiring = false
-      console.log('Invalid Coordinates')
+      console.log('Please enter both x and y coordinates')
     }
     else if(x < 0 || x > player1Board.length - 1 || y < 0 || y > player1Board.length - 1){
       isValidFiring = false
-      console.log('Invalid Coordinates')
+      console.log('The coordinates cannot exceed the length of the game board')
     }
     else if(array.length > 2){
       isValidFiring = false
-      console.log('Invalid Coordinates')
+      console.log('Please enter only 2 values')
     }
   }
   return isValidFiring
@@ -135,61 +136,60 @@ function firing(input, playerName){
 Player.prototype.fire = function(x, y){
   let coord = `${x},${y}`
   let result = 'MISS!'
-  if(this.name === PLAYER_1){
 
+  if(this.name === PLAYER_1){
     let allShips = player2.getAllShips
-    console.log(allShips)
-    for(let ship in allShips){
-      let shipCoords = allShips[ship]
-      console.log(shipCoords)
-      console.log(allShips)
-      if(shipCoords.hasOwnProperty(coord)){
-        if(player2Board[x][y] === 'X'){
+    let board = player2.getBoard()
+    for(let key in allShips){
+      let ship = allShips[key]
+      if(ship.hasOwnProperty(coord)){
+        //If the position is already hit, specify that it's already taken
+        if(board[x][y] === 'X'){
           result = 'ALREADY TAKEN!'
         }
-        else {
-          player2Board[x][y] = 'X'
-          shipCoords[coord] = 'X'
+        //if there's a ship portion at the position, indicate a HIT
+        else if(board[x][y] === 'O') {
+          board[x][y] = 'X'
+          ship[coord] = 'X'
           result = 'HIT!'
         }
       }
       //Indicate a MISS where no ship is at the coordinate
-      else if (player2Board[x][y] === '-') {
-        player2Board[x][y] = 'M'
+      else if (board[x][y] === '-') {
+        board[x][y] = 'M'
       }
-
-      //Check if a ship is is sunk
-      console.log('Is ship sunk?')
-      console.log(player2.isShipSunk(shipCoords))
-      console.log('Is all ships sunk?')
-      console.log(player2.isAllShipsSunk())
+      //Show if a ship is sunk
+      if(player2.isShipSunk(ship)){
+        console.log(key + ' is Sunk!!')
+      }
     }
   }
 
   if(this.name === PLAYER_2){
     let allShips = player1.getAllShips
-      for(let ship in allShips){
-        let shipCoords = allShips[ship]
-
-        if(shipCoords.hasOwnProperty(coord)){
-          if(player1Board[x][y] === 'X'){
+    let board = player1.getBoard()
+      for(let key in allShips){
+        let ship = allShips[key]
+        if(ship.hasOwnProperty(coord)){
+          //If the position is already hit, specify that it's already taken
+          if(board[x][y] === 'X'){
             result = 'ALREADY TAKEN!'
           }
-          else {
-            player1Board[x][y] = 'X'
-            shipCoords[coord] = 'X'
+          //if there's a ship portion at the position, indicate a HIT
+          else if(board[x][y] === 'O') {
+            board[x][y] = 'X'
+            ship[coord] = 'X'
             result = 'HIT!'
           }
         }
         //Indicate a MISS where no ship is at the coordinate
-        else if (player1Board[x][y] === '-')  {
-          player1Board[x][y] = 'M'
+        else if (board[x][y] === '-')  {
+          board[x][y] = 'M'
         }
-        //Check if a ship is is sunk
-        console.log('Is ship sunk?')
-        console.log(player1.isShipSunk(player1.getShip(0)))
-        console.log('Is all ships sunk?')
-        console.log(player1.isAllShipsSunk())
+        //Show if a ship is sunk
+        if(player1.isShipSunk(ship)){
+          console.log(key + ' is Sunk!!')
+        }
       }
     }
   console.log('Attack Result: ' + result)
@@ -301,9 +301,21 @@ Player.prototype.viewBoard = function(){
 
 // ----------------------------------------------
 
+//Check if winner is found
+function winnerFound(){
+  if(player1.isAllShipsSunk()){
+    console.log('Player 2 Wins!')
+    return true
+  }
+
+  if(player2.isAllShipsSunk()){
+    console.log('Player 1 Wins!')
+    return true
+  }
+  return false
+}
 
 let totalShips = 0, attackTurn = 0
-
 
 function promptInput(prompt, handler) {
   //SET UP PHASE
@@ -317,7 +329,7 @@ function promptInput(prompt, handler) {
             promptInput(SETUP_PROMPT.replace('Player 1', 'Player 2'), handler);
           }
           else {
-            console.log(INVALID_PROMPT)
+            console.log(INVALID_SETUP)
             promptInput(SETUP_PROMPT, handler);
           }
         }
@@ -327,7 +339,7 @@ function promptInput(prompt, handler) {
             promptInput(SETUP_PROMPT, handler);
           }
           else {
-            console.log(INVALID_PROMPT)
+            console.log(INVALID_SETUP)
             promptInput(SETUP_PROMPT.replace('Player 1', 'Player 2'), handler);
           }
         }
@@ -335,6 +347,10 @@ function promptInput(prompt, handler) {
         rl.close();
       }
     });
+  }
+  //If a winner is found, close the readline
+  else if(winnerFound()){
+    rl.close()
   }
   //FIRING PHASE
   else {
@@ -353,7 +369,7 @@ function promptInput(prompt, handler) {
             promptInput(prompt, handler)
           }
           else {
-            console.log(INVALID_PROMPT)
+            console.log(INVALID_FIRING)
             promptInput(prompt, handler)
           }
         }
@@ -362,8 +378,7 @@ function promptInput(prompt, handler) {
             attackTurn = 0
             promptInput(prompt, handler)
           }
-          else {
-            console.log(INVALID_PROMPT)
+          else {)
             promptInput(prompt, handler)
           }
         }
@@ -376,11 +391,8 @@ function promptInput(prompt, handler) {
 
 promptInput(SETUP_PROMPT, input => {
   switch (input) {
-    case 'setup':
-      console.log('setup')
-      break;
     case 'exit':
-      console.log('Bye!');
+      console.log('Thank you for playing Battleship!');
       return false;
   }
 });
