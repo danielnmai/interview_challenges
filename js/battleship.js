@@ -12,7 +12,7 @@ const player1 = new Player(PLAYER_1)
 const player2 = new Player(PLAYER_2)
 
 //Limit the total number of ships for 2 players
-const MAX_SHIP_NUMBER = 2
+const MAX_SHIP_NUMBER = 4
 
 //Specify max ship length and min ship length
 const MAX_SHIP_LENGTH = 4, MIN_SHIP_LENGTH = 2
@@ -101,8 +101,6 @@ function firing(input, playerName){
   //Get input fields - x and y
   let array = input.split(' ');
   let x = parseInt(array[0]), y = parseInt(array[1])
-  console.log(x)
-  console.log(y)
   let isValidFiring = true
 
   checkValidFiring()
@@ -138,44 +136,64 @@ Player.prototype.fire = function(x, y){
   let coord = `${x},${y}`
   let result = 'MISS!'
   if(this.name === PLAYER_1){
-    console.log('Player 1 Attack!')
+
     let allShips = player2.getAllShips
-    console.log('player 2 ships')
     console.log(allShips)
     for(let ship in allShips){
       let shipCoords = allShips[ship]
+      console.log(shipCoords)
+      console.log(allShips)
       if(shipCoords.hasOwnProperty(coord)){
-        player2Board[x][y] = 'X'
-        result = 'HIT!'
+        if(player2Board[x][y] === 'X'){
+          result = 'ALREADY TAKEN!'
+        }
+        else {
+          player2Board[x][y] = 'X'
+          shipCoords[coord] = 'X'
+          result = 'HIT!'
+        }
       }
-
-      else {
+      //Indicate a MISS where no ship is at the coordinate
+      else if (player2Board[x][y] === '-') {
         player2Board[x][y] = 'M'
       }
+
+      //Check if a ship is is sunk
+      console.log('Is ship sunk?')
+      console.log(player2.isShipSunk(shipCoords))
+      console.log('Is all ships sunk?')
+      console.log(player2.isAllShipsSunk())
     }
   }
 
   if(this.name === PLAYER_2){
-    console.log('Player 2 Attack!')
     let allShips = player1.getAllShips
-    console.log('player 1 ships')
-    console.log(allShips)
-    for(let ship in allShips){
-      let shipCoords = allShips[ship]
+      for(let ship in allShips){
+        let shipCoords = allShips[ship]
 
-      if(shipCoords.hasOwnProperty(coord)){
-        player1Board[x][y] = 'X'
-        result = 'HIT!'
-      }
-      else {
-        player1Board[x][y] = 'M'
+        if(shipCoords.hasOwnProperty(coord)){
+          if(player1Board[x][y] === 'X'){
+            result = 'ALREADY TAKEN!'
+          }
+          else {
+            player1Board[x][y] = 'X'
+            shipCoords[coord] = 'X'
+            result = 'HIT!'
+          }
+        }
+        //Indicate a MISS where no ship is at the coordinate
+        else if (player1Board[x][y] === '-')  {
+          player1Board[x][y] = 'M'
+        }
+        //Check if a ship is is sunk
+        console.log('Is ship sunk?')
+        console.log(player1.isShipSunk(player1.getShip(0)))
+        console.log('Is all ships sunk?')
+        console.log(player1.isAllShipsSunk())
       }
     }
-  }
-  console.log(result)
+  console.log('Attack Result: ' + result)
 }
-
-
 
 //Create Player Object with properties of name, shipCount and getAllShips
 function Player(name){
@@ -234,6 +252,22 @@ Player.prototype.addShip = function(x, y, length, direction) {
 //Get a single ship information
 Player.prototype.getShip = function(id) {
   return this.getAllShips['ship' + id]
+}
+
+//Check if a ship is sunk
+Player.prototype.isShipSunk = function(ship){
+  let coordValues = Object.keys(ship).map(key => ship[key])
+  return coordValues.join('').includes('X'.repeat(coordValues.length))
+}
+
+//Check if all ships are sunk
+Player.prototype.isAllShipsSunk = function(){
+  for(let i = 0; i < this.shipCount; i++){
+    if(!this.isShipSunk(this.getShip(i))){
+      return false
+    }
+  }
+  return true
 }
 
 //Get player board
