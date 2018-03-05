@@ -1,13 +1,16 @@
-<div id="root">
+<div class="root">
 
   <div class="A1">
     <div class="A1 B">
       <p>This is a paragraph </p>
+      <div>
+        inner paragraph
+      </div>
     </div>
   </div>
 
-  <div class="A1">
-    <div class="A2 B2 C2">
+  <div class="A2">
+    <div class="A1 B2 C2">
     </div>
   </div>
 
@@ -43,7 +46,7 @@
       node;
     for (i = 0; i < len; i++) {
       node = elements[i];
-      if (node.className == className) {
+      if (node.className.includes(className)) {
         result.push(node);
       }
     }
@@ -54,45 +57,12 @@
 </script>
 
 <script>
-function startGame(){
-
-//create a 7x6 gameBoard
-let gameBoard = [
-  ['*', '*', '*', '*', '*', '*', '*'],
-  ['*', '', '*', '*', '*', '*', '*'],
-  ['*', '*', '*', '*', '*', '*', '*'],
-  ['*', '*', '*', '*', '*', '*', '*'],
-  ['*', '*', '*', '*', '*', '*', '*'],
-  ['*', '*', '*', '*', '*', '*', '*'],
-  ['*', '*', '*', '*', '*', '*', '*']
-  ]
-
-  for(let i = 0; i < gameBoard.length; i++){
-    console.log(gameBoard[i].join(' '))
-  }
-
-  console.log(gameBoard[1][1])
-}
-
-// startGame();
-
-function testGame() {
-  var stdin = process.openStdin();
-
-  var readline = require('readline');
-
-  var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-  });
-
-  rl.question("What do you think of node.js? ", function(answer) {
-  // TODO: Log the answer in a database
-  console.log("Thank you for your valuable feedback:", answer);
-
-  rl.close();
-  });
-}
-
 
 </script>
+
+<style>
+  #root {
+    margin: 10px;
+    border: 1px solid blue;
+  }
+</style>
