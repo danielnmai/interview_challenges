@@ -12,7 +12,7 @@ HashTable.prototype.hash = function(key) {
   for (let i = 0; i < key.length; i++) {
     total += key.charCodeAt(i)
   }
-  let hashedKey = total % 30
+  let hashedKey = total % this.size
   return hashedKey
 }
 HashTable.prototype.retrieve = function(key) {
