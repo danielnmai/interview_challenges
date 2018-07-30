@@ -13,6 +13,10 @@ function Node(data) {
 }
 
 function levelOrder(node){
+    
+}
+
+function traverseBF(node){
 
 }
 
