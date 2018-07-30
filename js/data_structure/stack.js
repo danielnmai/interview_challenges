@@ -10,7 +10,6 @@ Stack.prototype.pop = function(){
   let size = this.size - 1
   console.log(size)
   if(size){
-    console.log('heeh')
     let deletedData = this.values[size]
     delete this.values[size]
     this.size--
