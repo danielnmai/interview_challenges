@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function TreeNode(val){
+    this.val = val
+    this.left = this.right = null
+    this.addLeft = function(node){
+        this.left = node
+    }
+    this.addRight = function(node){
+        this.right = node
+    }
+}
+function visit(node){
+    console.log(node.val)
+}
+
+let longestPath = 0
+function traverse(node){
+    if(node === null) return
+    visit(node)
+    if(node.left){
+        if(node.left.val == node.val){
+            longestPath++    
+        }
+        traverse(node.left)
+    }
+    if(node.right){
+        if(node.right.val == node.val){
+            longestPath++
+        }
+        traverse(node.right)
+    }
+}
+
+let rootNode = new TreeNode(1)
+let node_4A = new TreeNode(4)
+let node_4B = new TreeNode(4)
+let node_4C = new TreeNode(4)
+let node_5A = new TreeNode(5)
+let node_5B = new TreeNode(5)
+rootNode.addLeft(node_4A)
+rootNode.addRight(node_5A)
+node_4A.addLeft(node_4B)
+node_4A.addRight(node_4C)
+node_5A.addRight(node_5B)
+
+traverse(rootNode)
+        
+        </script>
+    
+</body>
+</html>
