@@ -18,7 +18,8 @@ Output: 2
 
 function TreeNode(data){
     this.data = data
-    this.left = this.right = []
+    this.left = []
+    this.right = []
     this.addLeft = function(node){
         this.left.push(node)
     }
@@ -35,9 +36,9 @@ function traverse(node){
     //print out node data
     visit(node)
     //visit left branch
-    for(node of node.left) traverse(node)
+    for(currentNode of node.left) traverse(currentNode)
     //visit right branch
-    for(node of node.right) traverse(node)
+    for(currentNode of node.right) traverse(currentNode)
 }
 
 let rootNode = new TreeNode(1)
