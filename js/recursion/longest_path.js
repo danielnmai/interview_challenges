@@ -1,5 +1,5 @@
 /* Given a binary tree, find the length of the longest path where each node in the path has the same value. This path may or may not pass through the root.
- Note: The length of path between two nodes is represented by the number of edges between them.
+Note: The length of path between two nodes is represented by the number of edges between them.
 
 Input:        5
              / \
@@ -9,10 +9,10 @@ Input:        5
 Output: 2
 
 Input:        1
-             / \
-            4   5
-           / \   \
-          4   4   5
+/ \
+4   5
+/ \   \
+4   4   5
 Output: 2
 */
 
@@ -30,39 +30,62 @@ function visit(node){
     console.log(node.val)
 }
 
-let longestPath = 0
-function traverse(node){
-    if(node === null) return
-    visit(node)
-    if(node.left){
-        if(node.left.val == node.val){
-            longestPath++
-            console.log('current longest path: (left) ' + longestPath)
-            console.log('node left val: ' + node.left.val)
-            console.log('node val: ' + node.left.val)
-        }
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+let totalPaths = []
+
+var longestUnivaluePath = function(root) {    
+    
+    if(root == null) return 0
+    
+    if(root.left == null && root.right == null)  return 0
+    
+    function traverse (node){
+        if(node === null) return
+        let currentPath = [node.val]
+        if(node.left) {
+            if(node.val == node.left.val){
+                currentPath.push(node.val)
+            }
+            totalPaths.push(currentPath)
         traverse(node.left)
     }
-    if(node.right){
-        if(node.right.val == node.val){
-            longestPath++
-            console.log('current longest path: (right) ' + longestPath)
+        if(node.right) {
+            if(node.val == node.right.val){
+                currentPath.push(node.val)
+            } 
+            totalPaths.push(currentPath)
+            traverse(node.right)
         }
-        traverse(node.right)
     }
-}
+    
+    traverse(root)
+    
+    //return longest path
+    console.log(totalPaths)
+    return Math.max(...totalPaths.map( path => path.length  - 1))
+};
 
-let rootNode = new TreeNode(1)
-let node_4A = new TreeNode(4)
-let node_4B = new TreeNode(4)
-let node_4C = new TreeNode(4)
-let node_5A = new TreeNode(5)
-let node_5B = new TreeNode(5)
-rootNode.addLeft(node_4A)
-rootNode.addRight(node_5A)
-node_4A.addLeft(node_4B)
-node_4A.addRight(node_4C)
-node_5A.addRight(node_5B)
+let rootNode = new TreeNode(5)
+let node_A = new TreeNode(4)
+let node_B = new TreeNode(5)
+let node_C = new TreeNode(1)
+let node_D = new TreeNode(1)
+let node_E = new TreeNode(5)
+rootNode.addLeft(node_A)
+rootNode.addRight(node_B)
+node_A.addLeft(node_C)
+node_A.addRight(node_D)
+node_B.addRight(node_E)
 
-traverse(rootNode)
-// console.log(longestPath)
+// traverse(rootNode)
+console.log(longestUnivaluePath(rootNode))
