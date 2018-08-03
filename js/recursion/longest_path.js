@@ -43,49 +43,56 @@ function visit(node){
  */
 let totalPaths = []
 
-var longestUnivaluePath = function(root) {    
+const longestUnivaluePath = function(root) { 
+    let answer = 0
+    pathLength(root)
+    return answer
+
+    function pathLength(node){
+        if (node == null) return 0
+        let left = pathLength(node.left)
+        let right = pathLength(node.right)
+
+        let pathLeft = 0, pathRight = 0
+        if(node.left != null && node.left.val == node.val){
+            pathLeft += left + 1
+        }
+        if(node.right != null && node.right.val == node.val){
+            pathRight += right + 1
+        }
+        answer = Math.max(answer, pathLeft + pathRight)
+        return Math.max(pathLeft, pathRight)
+    }
     
-    if(root == null) return 0
-    
-    if(root.left == null && root.right == null)  return 0
-    
-    function traverse (node){
-        if(node === null) return
-        let currentPath = [node.val]
-        if(node.left) {
-            if(node.val == node.left.val){
-                currentPath.push(node.val)
-            }
-            totalPaths.push(currentPath)
+}
+
+function traverse(node){
+    if (node == null) return
+    console.log(node.val)
+    if(node.left){
         traverse(node.left)
     }
-        if(node.right) {
-            if(node.val == node.right.val){
-                currentPath.push(node.val)
-            } 
-            totalPaths.push(currentPath)
-            traverse(node.right)
-        }
+    if(node.right){
+        traverse(node.right)
     }
-    
-    traverse(root)
-    
-    //return longest path
-    console.log(totalPaths)
-    return Math.max(...totalPaths.map( path => path.length  - 1))
-};
+}
 
-let rootNode = new TreeNode(5)
-let node_A = new TreeNode(4)
+
+let rootNode = new TreeNode(1)
+let node_A = new TreeNode(2)
 let node_B = new TreeNode(5)
-let node_C = new TreeNode(1)
-let node_D = new TreeNode(1)
-let node_E = new TreeNode(5)
+let node_C = new TreeNode(3)
+let node_D = new TreeNode(4)
+let node_E = new TreeNode(6)
+let node_F = new TreeNode(7)
 rootNode.addLeft(node_A)
 rootNode.addRight(node_B)
 node_A.addLeft(node_C)
 node_A.addRight(node_D)
-node_B.addRight(node_E)
+node_B.addLeft(node_E)
+node_B.addRight(node_F)
 
-// traverse(rootNode)
-console.log(longestUnivaluePath(rootNode))
+traverse(rootNode)
+// console.log(longestUnivaluePath(rootNode))
+
+
