@@ -67,14 +67,16 @@ const longestUnivaluePath = function(root) {
 }
 
 function traverse(node){
+    
     if (node == null) return
-    console.log(node.val)
+
     if(node.left){
         traverse(node.left)
     }
     if(node.right){
         traverse(node.right)
     }
+    console.log('I have returned to node '+ node.val)
 }
 
 
@@ -94,5 +96,4 @@ node_B.addRight(node_F)
 
 traverse(rootNode)
 // console.log(longestUnivaluePath(rootNode))
-
 
