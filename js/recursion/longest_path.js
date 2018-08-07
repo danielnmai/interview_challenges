@@ -80,7 +80,7 @@ function traverse(node){
 }
 
 
-let rootNode = new TreeNode(1)
+let rootNode = new TreeNode(5)
 let node_A = new TreeNode(2)
 let node_B = new TreeNode(5)
 let node_C = new TreeNode(3)
@@ -94,6 +94,6 @@ node_A.addRight(node_D)
 node_B.addLeft(node_E)
 node_B.addRight(node_F)
 
-traverse(rootNode)
-// console.log(longestUnivaluePath(rootNode))
+// traverse(rootNode)
+console.log(longestUnivaluePath(rootNode))
 
