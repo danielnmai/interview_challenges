@@ -1,10 +1,11 @@
 
 let currentMove = 0
+
 function printMove(n, from, to){
     console.log(`Move ${n} from ${from} to ${to}`)
 }
 function moveDisks(n, from, to, spare){
-    console.log(n)
+
     if(n == 1) {
         return printMove(n, from, to)
     }
@@ -13,5 +14,11 @@ function moveDisks(n, from, to, spare){
     moveDisks(n - 1, spare, to, from)   
 }
 
+let noOfDisk = 2
 
-moveDisks(3, 'A', 'C', 'B')
+let from = []
+for(let i = 0;i < noOfDisk; i++){
+    from.push(i)
+}
+// moveDisks(1, 'A', 'C', 'B')
+console.log(from)
