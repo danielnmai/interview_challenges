@@ -22,3 +22,4 @@ function stringCompression (s) {
 }
 
 console.log(stringCompression('abcd'))
+console.log(stringCompression('aaaabbbbccddddde'))
