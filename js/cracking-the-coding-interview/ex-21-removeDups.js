@@ -22,42 +22,47 @@ function SinglyList(){
         return last
     }
 
-    this.removeDups = function() {
-        let hash = {}
-        
-    }
 
-    this.remove = function(data){
-        if(!this.head){ return null }
-        let previousNode = this.head
-        let currentNode = this.head.next
-        while(currentNode.next){
-            if(currentNode.data == data){
-                previousNode.next = currentNode.next
-                delete currentNode
-            }
-            previousNode = currentNode
-            currentNode = currentNode.next
+    this.remove = function(prevNode, node){
+        if(!node) { return null }
+        //the delete node is the head
+        if(this.head == node){
+            this.head = node.next
+            delete node
         }
+        //the delete node is the tail
+        if(node.next == null){
+            prevNode.next == null
+            delete node
+        }
+        else {
+            //The delete node is in the middle of list
+            prevNode.next = node.next
+            delete node
+        }
+        
     }
     this.removeDups = function () {
         if(!this.head) { return null }
         let hash = {}
-        let node = this.head
-        while(node.next){
+        let prevNode = this.head
+        let node = this.head.next
+        let count = 0
+        while(node){
+            console.log('Node val: ' + node.data)
             if(hash.hasOwnProperty(node.data)){
-                this.remove(node.data)
+                this.remove(prevNode, node)
+                console.log('Remove duplicate: ' + node.data)
             }
             else {
                 hash[node.data] = 1
             }
-            console.log(hash)
+            prevNode = node
             node = node.next
+            count++
         }
-        console.log(node)
-        // if(hash.hasOwnProperty(node.data)){
-        //     this.remove(node.data)
-        // }
+        console.log(hash)
+        console.log('count: ' + count)
     }
 
     this.printList = function(){
@@ -69,7 +74,6 @@ function SinglyList(){
             console.log(node.data) 
             node = node.next                       
         }
-        console.log(node.data)
     }
 }
 
@@ -82,9 +86,6 @@ list.add(5)
 list.add(2)
 list.add(1)
 list.add(2)
-
-// list.remove(5)
-list.remove(1)
 // list.removeDups()
 
 console.log(list.printList())
