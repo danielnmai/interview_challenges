@@ -86,6 +86,5 @@ list.add(5)
 list.add(2)
 list.add(1)
 list.add(2)
-// list.removeDups()
 
 console.log(list.printList())
