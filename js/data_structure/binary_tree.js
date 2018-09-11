@@ -1,38 +1,38 @@
 const Queue = require('./queue')
+
 // const binaryTree = [3, 9, 20, null, null, 15, 7]
+
 function Node(data) {
     this.data = data
-    this.left = []
-    this.right = []
+    this.left = null
+    this.right = null
     this.addLeft = function(node) {
-        this.left.push(node)
+        this.left = node
     }    
     this.addRight = function(node) {
-        this.right.push(node)
+        this.right = node
     }    
 }
 
-function levelOrder(node){
-    
-}
 
 function traverseBF(node){
     let queue = new Queue()
-    console.log(node.data)
+
     queue.enqueue(node)
 
     while(!queue.isEmpty()){
+
         let currentNode = queue.dequeue()
-        for(let i = 0; i < currentNode.left.length; i++){
-            console.log(currentNode.left[i].data)
-            queue.enqueue(currentNode.left[i])
+        
+        console.log(currentNode.data)
+
+        if (currentNode.left){
+            queue.enqueue(currentNode.left)
         }
-        for(let i = 0; i < currentNode.right.length; i++){
-            console.log(currentNode.right[i].data)
-            queue.enqueue(currentNode.right[i])
+        if(currentNode.right){
+            queue.enqueue(currentNode.right)
         }
-    }
-     
+    }     
 }
 
 let rootNode = new Node(3)
@@ -46,9 +46,5 @@ rootNode.addRight(node_20)
 node_20.addLeft(node_15)
 node_20.addRight(node_7)
 
-
-
-
-// console.log(rootNode)
 traverseBF(rootNode)
 

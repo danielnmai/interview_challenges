@@ -27,13 +27,4 @@
   }
 }
 
-
-let queue = new Queue()
-
-queue.enqueue('first')
-queue.enqueue('second')
-
-console.log(queue.dequeue())
-
-
 module.exports = Queue
