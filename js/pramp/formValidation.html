@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up form</title>
+    <style>
+    /* --------------------
+     Add your styling here
+     -------------------- */
+    </style>
+</head>
+<body>
+<div class="sign-up-form">
+    <!----------------------
+    Add your markup here
+    ------------------------>
+    <form name ="signup" onsubmit="return validateForm()">
+        <div class="container">
+            <h1>Sign In</h1>
+            <div class="row">
+                <label class="col-3">First Name</label>
+                <input class="col-3"type="text" name="firstName" required>
+            </div>
+            <div class="row">
+                <label class="col-3">Last Name</label>
+                <input class="col-3" type="text" name="lastName"required>
+            </div>
+            <div class="row">
+                <label class="col-3">Email</label>
+                <input class="col-3" type="email" name="email"required>
+            </div>
+            <div class="row">
+                <label class="col-3">Password</label>
+                <input class="col-3" type="password" name="password"required>
+            </div>
+            <div class="row">
+                <label class="col-3">Confirm Password</label>
+                <input class="col-3"type="password" pattern="[a-zA-Z0-9]{3}" title="password must have exactly 8 characters" name="confirmedPass"required>
+            </div>
+            <button type="submit">Submit</button>
+        </div>
+        
+    </form>
+</div>
+<script>
+    /* --------------------
+     Add your code here
+    --------------------- */
+    function validateForm() {
+        //password and confirm password must match
+        let formFields = document.signup
+        let pass = formFields.password.value, confirmedPass = formFields.confirmedPass.value
+        let firstName = formFields.firstName.value, lastName = formFields.lastName.value
+        let email = formFields.email.value
+        if(pass !== confirmedPass){
+            alert("Passwords not matched. Please re-enter.")
+            return false
+        }        
+        
+        //Valid check for email (must have a dot)
+        if(!email.includes(".")){
+            alert("Please enter correct email format.")
+            return false
+        }
+        // alert('Form is submitted')
+        return true
+    }
+</script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+</script>
+</body>
+</html>
