@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <style>
+        #container {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            justify-items: start;
+            grid-gap: 10px;  
+        }
+        .item-day {
+            width: 100px;
+            padding: 20px;
+        }
+        .head  {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            justify-items: start;
+            grid-gap: 10px;  
+        }
+        .day {
+            width: 100px;
+            padding: 20px;
+            background-color: white;
+            color: black;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+        }
+        .holiday {
+            font-style: bold;
+            color: palevioletred;
+        }
+        
+        
+        /* --------------------
+        Add your styling here
+        -------------------- */
+        
+    </style>
+</head>
+<body>
+    <div class="calendar">
+        <h1>September 2018</h1>
+        <div class="head">
+            <div class="item-day">Sunday</div>
+            <div class="item-day">Monday </div>
+            <div class="item-day">Tuesday </div>
+            <div class="item-day">Wednesday</div>
+            <div class="item-day">Thursday </div>
+            <div class="item-day">Friday </div>
+            <div class="item-day">Saturday</div>
+        </div>
+        <div id="container">
+        </div>
+        
+        <!----------------------
+            Add your markup here
+            ------------------------>
+            
+        </div>
+        <script>
+            function isHoliday(month, day, year) {        
+                if(month === 9 && day === 3){
+                    return true
+                }
+                return false
+            }
+            let container = document.getElementById("container")
+            let div = document.createElement("div")
+            for(let i = 1; i <= 31; i++){
+                let div = document.createElement("div")
+                div.classList = "day"
+                let day = document.createTextNode(`${i}`)
+                
+                if(isHoliday(9, i, 2019)) {
+                    let holiday = document.createTextNode("Labor Day")
+                    let innerDiv = document.createElement("div")
+                    innerDiv.appendChild(holiday)
+                    innerDiv.classList = "holiday"
+                    div.appendChild(day)
+                    div.appendChild(innerDiv)
+                    container.appendChild(div)
+                } else {
+                    div.appendChild(day)
+                    container.appendChild(div)
+                }
+                
+                
+            }
+        </script>
+    </body>
+    </html>

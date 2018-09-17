@@ -6,6 +6,7 @@ function Node(data) {
     this.data = data
     this.left = null
     this.right = null
+    
     this.addLeft = function(node) {
         this.left = node
     }    
@@ -23,7 +24,7 @@ function traverseBF(node){
     while(!queue.isEmpty()){
 
         let currentNode = queue.dequeue()
-        
+
         console.log(currentNode.data)
 
         if (currentNode.left){
