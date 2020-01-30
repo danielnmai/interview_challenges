@@ -2,6 +2,8 @@ const Queue = require('../data_structure/queue')
 
 // const binaryTree = [3, 9, 20, null, null, 15, 7]
 
+
+
 function Node (data) {
     this.data = data
     this.left = null

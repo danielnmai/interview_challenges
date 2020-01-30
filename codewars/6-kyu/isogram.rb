@@ -19,17 +19,19 @@ def isogram?(s)
   chars = s.split('')
   hash = Hash.new
   chars.each do |c|
-    if c =~ /[a-zA-Z]/
+    `c = c.downcase`
+    if c =~ /[a-z]/
       if hash.has_key?(c)
         hash[c] += 1
-      else        hash[c] = 0
+      else
+        hash[c] = 0
       end
     end
   end
   values = hash.values
   puts hash
   puts values
-  return values.none? { |num| num != values[0]}
+  return values.all? { |num| num == values[0]}
 end
 
-isogram?('electoral college')
+puts isogram?('lvlOXvXvEelmOemEEmOelvmXeEOXElmXevO')
