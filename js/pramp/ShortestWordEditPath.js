@@ -32,28 +32,29 @@ function shortestWordEditPath(source, target, words) {
  
   
   const queue = new Queue();
-  let length = 0;
-  let visiteds = new Array(words.length).fill(false);
+  let seen = {};
 
-  queue.enqueue(source);
+  queue.enqueue(source, 0);
 
   while(!queue.isEmpty()){
     const word = queue.dequeue();
+    const level = queue.getLevel();
+
+    if(word === target){
+      return level;
+    }
+
     for(let i = 0; i < words.length; i++){
       const curWord = words[i];
-      if(isNeighbor(word, curWord) && visiteds[i] === false){
-        length++;
-        queue.enqueue(curWord);
-        visiteds[i] = true;
+      if(isNeighbor(word, curWord) && !seen.hasOwnProperty(curWord)){
+        queue.enqueue(curWord, level + 1);
+        seen[curWord] = true;
+        break;
       }
     }
   }
-  
 
-  
-  console.log(length);
-  
-  return length; 
+  return -1;
 }
 
 function isNeighbor(source, target){
@@ -77,9 +78,11 @@ function isNeighbor(source, target){
 
 function Queue() {
   this.items = [];
+  this.level = 0;
 
-  Queue.prototype.enqueue = function(item) {
+  Queue.prototype.enqueue = function(item, level) {
     this.items.push(item); // add the item to the end of the array
+    this.level = level;
   }
 
   Queue.prototype.dequeue = function() {
@@ -91,14 +94,20 @@ function Queue() {
   Queue.prototype.isEmpty = function() {
     return this.items.length === 0;
   }
+  Queue.prototype.getLevel = function(){
+    return this.level;
+  }
 }
 
 
 const source = "bit"; const target = "dog";
 const words = ["but", "put", "big", "pot", "pog", "dog", "lot"];
+const source1 = "no";
+const target1 = "go";
+const words1 = ["to"];
 
-shortestWordEditPath(source, target, words);
 
-console.log(isNeighbor('bit', 'but'));
+console.log(shortestWordEditPath(source, target, words));
+// console.log(shortestWordEditPath(source1, target1, words1));
 
 
