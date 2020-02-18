@@ -16,14 +16,14 @@ function Queue() {
   }
 }
 
-const queue = new Queue();
-queue.enqueue(1);
-queue.enqueue(4);
-queue.enqueue(2);
+// const queue = new Queue();
+// queue.enqueue(1);
+// queue.enqueue(4);
+// queue.enqueue(2);
 
+// // queue.dequeue();
 // queue.dequeue();
-queue.dequeue();
 
-console.log(queue.items);
+// console.log(queue.items);
 
 module.exports = Queue;

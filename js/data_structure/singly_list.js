@@ -48,12 +48,15 @@ SinglyList.prototype.search = function(position){
   return currentNode
 }
 
-let list = new SinglyList()
-let firstNode = list.add(2)
-let secondNode = list.add(5)
-let thirdNode = list.add(7)
-let fourthNode = list.add(9)
-console.log(firstNode.next)
-console.log(list.search(4))
+module.exports = SinglyList;
 
-console.log(list.length)
+
+// let list = new SinglyList()
+// let firstNode = list.add(2)
+// let secondNode = list.add(5)
+// let thirdNode = list.add(7)
+// let fourthNode = list.add(9)
+// console.log(firstNode.next)
+// console.log(list.search(4))
+
+// console.log(list.length)
