@@ -44,7 +44,7 @@ BinarySearchTree.prototype.insert = function(key) {
 
   // 1. If the tree is empty, create the root
   if(!root) {
-      this.root = new Node(key);
+      this.root = new Node(key)
       return;
   }
 
