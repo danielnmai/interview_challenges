@@ -38,7 +38,7 @@ function getCheapestCost(rootNode) {
  
   for(let i = 0; i < rootNode.children.length; i++){
     let curNode = rootNode.children[i];
-    let cost = getCheapestCost(curNode); // 0 + 5 + 4
+    let cost = getCheapestCost(curNode);
     if(cost < minCost){
       minCost = cost;
     }    

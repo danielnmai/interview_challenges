@@ -29,7 +29,9 @@ function findMinInAncestors(node){
   let curNode = node.parent;
   while(curNode !== null){
     if(curNode.val > node.val){
-      successorNode = curNode;
+      if(!successorNode){        
+        successorNode = curNode;
+      }      
     }
     if(curNode.val > node.val && curNode.val < successorNode.val){
       successorNode = curNode;
@@ -38,17 +40,6 @@ function findMinInAncestors(node){
   }
   return successorNode;
 }
-
-// function findMin(node, min){
-//   if(node === null){
-//     return min;
-//   }
-//   const curMin = Math.min(node.val, min);
-//   const leftMin = findMin(node.left, min);
-//   const rightMin = findMin(node.right, min);
-   
-//   return Math.min(curMin, leftMin, rightMin);
-// }
 
 function findMinNode(node, minNode){
   if(node === null) {
@@ -67,6 +58,18 @@ const node15 = new Node(15);
 const node5 = new Node(5);
 const node4 = new Node(4);
 const node7 = new Node(7);
+
+/*
+
+                8
+              /   \
+            5      12
+          /  \    /  \
+        4     7  10   15
+                /
+              9
+
+*/              
 
 node8.left = node5;
 node5.parent = node8;

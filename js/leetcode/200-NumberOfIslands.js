@@ -5,15 +5,12 @@
 var numIslands = function(grid) {
 
     const seen = new Set();
-    let onesCount = 0;
     let islandsCount = 0;
 
     for(let i = 0; i < grid.length; i++){
       for(let j = 0; j < grid[0].length; j++){
         if(grid[i][j] === "1" && !seen.has(`${i}-${j}`)){
           expand(i, j);
-          console.log('expanding: i: ', i);
-          console.log('expanding: j: ', j);
           islandsCount++;
         }
       }
@@ -27,9 +24,9 @@ var numIslands = function(grid) {
       }
       if(!seen.has(`${i}-${j}`)){
         if(grid[i][j] === "1") {
-          onesCount++;
+          seen.add(`${i}-${j}`);
         }        
-        seen.add(`${i}-${j}`);
+        
         // move up
         expand(i - 1, j);
         // move down
@@ -43,8 +40,7 @@ var numIslands = function(grid) {
 
     }
     expand(0, 0);
-    console.log('seen ', seen);
-    
+        
     return islandsCount;
 };
 
