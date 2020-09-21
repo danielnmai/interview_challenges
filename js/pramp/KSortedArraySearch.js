@@ -20,7 +20,7 @@ function sortKSortedArray(arr, k){
 
 }
 
-const arr = [1, 4, 5, 2, 3, 7, 8, 6, 10, 9];
+const arr = [1, 4, 5, 2, 3, 7,8, 6, 10, 9];
 const k = 2;
 
 console.log(sortKSortedArray(arr, k));
