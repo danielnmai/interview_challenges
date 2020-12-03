@@ -16,4 +16,18 @@ function binarySearch(ar, num){
 
 const ar = [1, 2, 4, 5, 7, 12, 15, 16, 30, 45, 66];
 
-console.log(binarySearch(ar, 12));
+function binarySearch2(ar, target) {
+  let high = ar.length - 1;
+  let low = 0;
+
+  while(low <= high) {
+    const mid = (high + low) / 2;
+
+    if(ar[mid] > target) high = mid - 1;
+    else if(ar[mid] < target) low = mid + 1;
+    else return mid;
+  }
+  return -1;
+}
+
+console.log(binarySearch2(ar, 6));
