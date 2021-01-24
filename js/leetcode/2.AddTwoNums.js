@@ -41,7 +41,7 @@ var addTwoNumbers = function(l1, l2) {
     }
 
     if(carry > 0) {
-        values.push(carry);
+        values.push(new ListNode(carry, null));
     }
 
 
