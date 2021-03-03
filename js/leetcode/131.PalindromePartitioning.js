@@ -48,4 +48,4 @@ var partition = function (s) {
 };
 
 const s1 = 'aaccbccaa';
-console.log(partition(s1));
+console.log(partition(s1));˜
