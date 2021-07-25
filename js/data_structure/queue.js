@@ -36,5 +36,3 @@ queue.enqueue(2);
 
 queue.dequeue();
 queue.dequeue();
-
-console.log(queue.values);

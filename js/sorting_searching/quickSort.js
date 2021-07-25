@@ -5,7 +5,7 @@ function quickSort(ar, left, right){
   
     function partition(ar, left, right){
       let pivot = ar[Math.floor((left + right) / 2)]
-      while (left <= right){
+      while (left <= right){   
         while (ar[left] < pivot) left++
         while (ar[right] > pivot) right--
   

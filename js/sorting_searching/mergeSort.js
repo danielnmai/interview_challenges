@@ -23,8 +23,14 @@ function merge(left, right) {
 			result.push(right[r++]);
 		}
 	}
-	return result.concat(left.slice(l).concat(right.slice(r)));
-}
+
+	while(l < left.length) result.push(left[l++]);
+	while(r < right.length) result.push(right[r++]);
+
+	return result;
+
+	// return result.concat(left.slice(l).concat(right.slice(r)));
+} 
 
 ar = [9, 2, 7, 6, 1, 11, 2, 1, 4, 5, 7, 20, 90, 10, 5];
 console.log(mergeSort(ar));

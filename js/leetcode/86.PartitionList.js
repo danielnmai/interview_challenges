@@ -65,4 +65,4 @@ const node3 = new ListNode(3, node2_2);
 const node4 = new ListNode(4, node3);
 const head = new ListNode(1, null);
 
-console.log(partition(head, 3));
+console.log(partition(head, 3));jjjjjjj

@@ -6,7 +6,7 @@ function HashTable(size) {
 HashTable.prototype.add = function(key, value) {
   let hashedKey = this.hash(key)
   this.values[hashedKey] = value
-}
+}l
 HashTable.prototype.hash = function(key) {
   let total = 0
   for (let i = 0; i < key.length; i++) {
