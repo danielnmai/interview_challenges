@@ -1,36 +1,40 @@
-function mergeSort(a) {
-	let length = a.length;
-	if (length == 1) return a;
+function mergeSort(arr) {
+	if(arr.length === 1) return arr;
+	const mid = Math.floor(arr.length / 2);
+	
+	// break the array into 2 halves
+	const leftArr = arr.slice(0, mid);
+	const rightArr = arr.slice(mid);
 
-	let mid = Math.floor(length / 2);
+	//sort each half
+	const sortedLeftArr = mergeSort(leftArr);
+	const sortedRightArr = mergeSort(rightArr);
 
-	let left = a.slice(0, mid);
-	let right = a.slice(mid);
-
-	return merge(mergeSort(left), mergeSort(right));
+	// merge them together
+	return merge(sortedLeftArr, sortedRightArr);    
 }
-function merge(left, right) {
-	let result = [],
-		l = 0,
-		r = 0;
-	let llen = left.length,
-		rlen = right.length;
 
-	while (l < llen && r < rlen) {
-		if (left[l] < right[r]) {
-			result.push(left[l++]);
-		} else {
-			result.push(right[r++]);
-		}
+
+
+function merge(leftArr, rightArr) {
+	let result = [];
+	let left = 0;
+	let right = 0;
+	while(left < leftArr.length && right < rightArr.length) {
+			if(leftArr[left] < rightArr[right]) {
+					result.push(leftArr[left]);
+					left++;
+			} else {
+					result.push(rightArr[right]);
+					right++;
+			}   
 	}
 
-	while(l < left.length) result.push(left[l++]);
-	while(r < right.length) result.push(right[r++]);
+//     while(left < leftArr.length) result.push(leftArr[left++]);
+//     while(right < rightArr.length) result.push(rightArr[right++]);
 
-	return result;
+//     return result;
+	return result.concat(leftArr.slice(left)).concat(rightArr.slice(right));
+}
 
-	// return result.concat(left.slice(l).concat(right.slice(r)));
-} 
-
-ar = [9, 2, 7, 6, 1, 11, 2, 1, 4, 5, 7, 20, 90, 10, 5];
-console.log(mergeSort(ar));
+mergeSort([1,10,50,2,14,99,100]);

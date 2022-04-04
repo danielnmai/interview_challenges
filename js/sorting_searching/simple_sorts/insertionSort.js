@@ -1,13 +1,13 @@
 function insertionSort(arr) {
 
-  for(let i = 1; i < arr.length; i++) {
-       let j = i;
+  const N = arr.length;
+  for(let i = 1; i < N; i++) {
+    let j = i;
+    while(j >= 0 && arr[j] < arr[j - 1]) {
+      swap(j, j - 1);
+      j--;
+    }
 
-       while(j >= 0 && arr[j] < arr[j - 1]) {
-          swap(j, j - 1);
-          j--;
-       }
-                 
   }
 
     function swap(index1, index2) {
@@ -42,4 +42,4 @@ function insertionSort(arr) {
 
 */
 
-insertionSort([5,3,4,1,2,55]);
+console.log(insertionSort([5,3,4,1,2,55]));
