@@ -83,7 +83,6 @@ class MaxBinaryHeap {
 
       if(rightChildIdx < length) {
         rightChild = this.values[rightChildIdx];
-        console.log('right child ', rightChild);
         // to make sure we only swap with the greater child
         // if we already swap with left child, check if right child is greater then left child
         // if we have not swapped, check if right child is greater than parent
@@ -133,15 +132,19 @@ heap.insert(18);
 heap.insert(27);
 heap.insert(12);
 heap.insert(55);
-heap.extractMax();
+console.log(heap.extractMax());
 
 // console.log('heap ', heap.values);
-// heap.extractMax();
-// heap.extractMax();
-// heap.extractMax();
-// heap.extractMax();
-// heap.extractMax();
-// heap.extractMax();
-// heap.extractMax();
+heap.extractMax();
+heap.extractMax();
+heap.extractMax();
+heap.extractMax();
+heap.extractMax();
+heap.extractMax();
+heap.extractMax();
+heap.extractMax();
+heap.extractMax();
+heap.extractMax();
+heap.extractMax();
 
 console.log('heap ', heap.values);
